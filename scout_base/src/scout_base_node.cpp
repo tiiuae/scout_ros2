@@ -19,11 +19,11 @@
 
 using namespace westonrobot;
 
-std::shared_ptr<ScoutBaseRos> robot;
-
-void DetachRobot(int signal) {
-  (void)signal;
-  robot->Stop();
+void DetachRobot(int signal, std::shared_ptr<ScoutBaseRos> robot) {
+    (void)signal;
+    if (robot) {
+        robot->Stop();
+    }
 }
 
 int main(int argc, char **argv) {
@@ -31,11 +31,19 @@ int main(int argc, char **argv) {
   rclcpp::init(argc, argv);
   //   std::signal(SIGINT, DetachRobot);
 
+  std::shared_ptr<ScoutBaseRos> robot;
+
   robot = std::make_shared<ScoutBaseRos>("scout");
+
   if (robot->Initialize()) {
     std::cout << "Robot initialized, start running ..." << std::endl;
     robot->Run();
   }
+  else {
+    std::cout << "Failed to initialize the robot, shutting down..." << std::endl;
+  }
+
+  rclcpp::shutdown();
 
   return 0;
 }
