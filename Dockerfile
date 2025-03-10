@@ -1,11 +1,6 @@
 # Use the official ROS 2 Iron desktop image as the base
 FROM osrf/ros:humble-desktop
 
-# # Specify the base image and ROS distribution
-# ARG base_image="ros"
-# ARG ros_distro="humble-ros-base"
-# FROM ${base_image}:${ros_distro}
-
 # Define user-related arguments
 ARG USER_NAME=ros2
 ARG USER_UID=1000
@@ -31,17 +26,6 @@ RUN useradd -m -d ${USER_HOME} -s ${USER_SHELL} -u ${USER_UID} ${USER_NAME}
 
 # Switch to root user for system-level installations
 USER root
-
-# # Install Gazebo and necessary dependencies
-# RUN apt-get update && apt-get install -y \
-#     build-essential \
-#     gazebo \
-#     ros-humble-gazebo-ros-pkgs \
-#     ros-humble-gazebo-ros2-control \
-#     cmake \
-#     ros-humble-xacro \
-#     python3-colcon-common-extensions \
-#     && rm -rf /var/lib/apt/lists/*
 
 # Update package lists and install additional dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
