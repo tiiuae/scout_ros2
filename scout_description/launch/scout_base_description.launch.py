@@ -12,18 +12,18 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    model_name = 'scout_v2.xacro'
+    model_name = 'scout_mini.xacro'
     # model_path = os.path.join(get_package_share_directory('scout_description'), "urdf", model_name)
     # print(model_path)
     robot_description_content = Command([
         PathJoinSubstitution([FindExecutable(name="xacro")]), " ",
         PathJoinSubstitution(
-            [FindPackageShare("scout_description"), "urdf", model_name]
+            [FindPackageShare("scout_description"), "urdf", "scout_mini", model_name]
         ),
     ])
 
     return launch.LaunchDescription([
-        DeclareLaunchArgument('use_sim_time', default_value='false',
+        DeclareLaunchArgument('use_sim_time', default_value='true',
             description='Use simulation clock if true'),
 
         launch.actions.LogInfo(msg='use_sim_time: '),
